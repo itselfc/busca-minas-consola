@@ -1,5 +1,7 @@
 package base;
 
+import base.enums.EstadoCasilla;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,26 +9,29 @@ public class Tablero {
     private int ancho;
     private int largo;
     private int cantMinas;
-    private boolean[][] tablero;
+    private base.enums.EstadoCasilla[][] tablero;
     private int[][] guia;
     private ArrayList<Mina> listaMinas;
     private ArrayList<Guia> listaGuias;
 
-    public Tablero(int ancho, int largo) {
-        this.tablero = new boolean[ancho][largo];
-        this.ancho = ancho;
-        this.largo = largo;
+    public Tablero(int medida) {
+        this.ancho = medida;
+        this.largo = medida;
+        this.tablero = new base.enums.EstadoCasilla[ancho][largo];
         listaMinas = new ArrayList<>();
         listaGuias = new ArrayList<>();
         cantMinas = ((ancho * largo) / 64) * 10;
-
     }
 
     public void posicionarMinas() {
         ArrayList<Mina> listaMinas = new ArrayList<>();
         for (int i = 0; i < cantMinas; i++) {
-            int x = generarAleatorio(ancho - 1);
-            int y = generarAleatorio(largo - 1);
+            int x;
+            int y;
+            do {
+                x = generarAleatorio(ancho - 1);
+                y = generarAleatorio(largo - 1);
+            } while (estaGuardadoEnLista(x, y, listaMinas));
             Mina mina = new Mina(x, y);
             ArrayList<Coordenada> listaPuntosCercanos = new ArrayList<>();
             listaPuntosCercanos.addAll(mina.encontrarCoordenadasVecinas(x, y, ancho, largo));
@@ -36,6 +41,13 @@ public class Tablero {
         this.listaMinas = listaMinas;
     }
 
+    public void inicializarTablero() {
+        for (int i = 0; i < ancho; i++) {
+            for (int j = 0; j < largo; j++) {
+                tablero[i][j] = EstadoCasilla.OCULTA;
+            }
+        }
+    }
 
     public void crearGuias() {
         ArrayList<Guia> listaValoresGuia = new ArrayList<>();
@@ -43,7 +55,7 @@ public class Tablero {
             Coordenada posMina = mina.getCoordenada();
             listaValoresGuia.add(new Guia(posMina.getX(), posMina.getY(), 9));
             for (Coordenada posVecino : mina.getCoordenadasVecinas()) {
-                if (!esUnaMina(posVecino.getX(),posVecino.getY())) {
+                if (!esUnaMina(posVecino.getX(), posVecino.getY())) {
                     int indice = getPosicionEnListaGuias(listaValoresGuia, posVecino.getX(), posVecino.getY());
                     if (indice != -1) {
                         int valorPrevio = listaValoresGuia.get(indice).getValor();
@@ -82,6 +94,15 @@ public class Tablero {
         return -1;
     }
 
+    public boolean estaGuardadoEnLista(int x, int y, ArrayList<Mina> listaMinas) {
+        for (Mina mina : listaMinas) {
+            Coordenada c = mina.getCoordenada();
+            if (c.getX() == x && c.getY() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public int generarAleatorio(int limiteSuperior) {
         Random r = new Random();
@@ -112,11 +133,11 @@ public class Tablero {
         this.cantMinas = cantMinas;
     }
 
-    public boolean[][] getTablero() {
+    public base.enums.EstadoCasilla[][] getTablero() {
         return tablero;
     }
 
-    public void setTablero(boolean[][] tablero) {
+    public void setTablero(base.enums.EstadoCasilla[][] tablero) {
         this.tablero = tablero;
     }
 
