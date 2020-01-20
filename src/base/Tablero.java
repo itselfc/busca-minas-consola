@@ -1,6 +1,6 @@
 package base;
 
-import base.enums.EstadoCasilla;
+import base.enums.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,7 +9,8 @@ public class Tablero {
     private int ancho;
     private int largo;
     private int cantMinas;
-    private base.enums.EstadoCasilla[][] tablero;
+    private String[][] tablero;
+    private EstadoCasilla[][] tableroEstados;
     private int[][] guia;
     private ArrayList<Mina> listaMinas;
     private ArrayList<Guia> listaGuias;
@@ -17,10 +18,121 @@ public class Tablero {
     public Tablero(int medida) {
         this.ancho = medida;
         this.largo = medida;
-        this.tablero = new base.enums.EstadoCasilla[ancho][largo];
+        this.tableroEstados = new base.enums.EstadoCasilla[ancho][largo];
         listaMinas = new ArrayList<>();
         listaGuias = new ArrayList<>();
         cantMinas = ((ancho * largo) / 64) * 10;
+    }
+
+    public EstadoJuego cambiarEstadoCasilla(int x, int y) {
+        EstadoCasilla estadoCasilla = tableroEstados[x][y];
+        if (estadoCasilla == EstadoCasilla.OCULTA) {
+            int valor = guia[x][y];
+            if (valor == ValorCasilla.VACIA.valor) {
+                ArrayList<Coordenada> listaCoordenadasEspaciosVacios = buscarPosicionesEspacioVacio(x, y);
+                for (Coordenada coordenada : listaCoordenadasEspaciosVacios) {
+                    int i = coordenada.getX();
+                    int j = coordenada.getY();
+                    tablero[i][j] = EstadoCasilla.DESCUBIERTA.simbolo;
+                }
+            }
+            if (valor == ValorCasilla.MINA.valor) {
+                tablero[x][y] = EstadoCasilla.EXPLOTADA.simbolo;
+                return EstadoJuego.PERDIDO;
+            }
+            if (valor == ValorCasilla.BANDERA.valor) {
+                tablero[x][y] = EstadoCasilla.DESCUBIERTA.simbolo;
+                return EstadoJuego.GANADO;
+            }
+            tablero[x][y] = EstadoCasilla.DESCUBIERTA.simbolo;
+            return EstadoJuego.CONTINUA;
+
+
+        }
+        return EstadoJuego.CONTINUA;
+
+    }
+
+    public ArrayList<Coordenada> buscarPosicionesEspacioVacio(int x, int y) {
+        ArrayList<Coordenada> listaCoordenadas = new ArrayList<>();
+
+        //La búsqueda de posiciones divide el tablero en 4 cuadrantes en donde la coordenada dada es el la que los divide.
+        // 1er cuadrante, C(x,y) limita la esquina inferior derecha del cuadrante.
+        // 2do cuadrante, C(x,y) limita la esquina inferior izquierda del cuadrante.
+        // 3er cuadrante, C(x,y) limita la esquina superior derecha del cuadrante.
+        // 4to cuadrante, C(x,y) limita la esquina superior derecha del cuadrante.
+        // Por medio de ciclos se buscan todas posiciones a partir del punto hasta llegar a una guia diferente de 0;
+
+        //Busqueda en primer cuadrante.
+        for (int i = x; i >= 0; i--) {
+            if (guia[i][y] != ValorCasilla.VACIA.valor) {
+                break;
+            }
+            for (int j = y; j >= 0; j--) {
+                Coordenada coordenada = new Coordenada(i, j);
+                if (guia[i][j] == ValorCasilla.VACIA.valor) {
+                    System.out.println("1"+ coordenada);
+
+                    listaCoordenadas.add(coordenada);
+                } else {
+                    break;
+                }
+            }
+
+        }
+
+        //Busqueda en segundo cuadrante. Agregas +1 a X para buscar en la siguiente linea vertical.
+        for (int i = x+1; i <= ancho; i++) {
+            if (guia[i][y] != ValorCasilla.VACIA.valor) {
+                break;
+            }
+            for (int j = y; j >= 0; j--) {
+                Coordenada coordenada = new Coordenada(i, j);
+                if (guia[i][j] == ValorCasilla.VACIA.valor) {
+                    System.out.println("2"+ coordenada);
+
+                    listaCoordenadas.add(coordenada);
+                } else {
+                    break;
+                }
+            }
+        }
+
+        //Busqueda en tercer cuadrante. Agregamos +1 a Y para buscar en la siguiente linea horizontal.
+        for (int i = x; i >= 0; i--) {
+            if ((y+1)<=largo && guia[i][y+1] != ValorCasilla.VACIA.valor) {
+                break;
+            }
+            for (int j = y+1; j <= largo; j++) {
+                Coordenada coordenada = new Coordenada(i, j);
+                if (guia[i][j] == ValorCasilla.VACIA.valor) {
+                    System.out.println("3"+ coordenada);
+
+                    listaCoordenadas.add(coordenada);
+                } else {
+                    break;
+                }
+            }
+        }
+
+
+        //Busqueda en cuarto cuadrante. Agregas +1 a X para buscar en la siguiente linea vertical.
+        for (int i = x+1; i <= ancho; i++) {
+            if (guia[i][y] != ValorCasilla.VACIA.valor) {
+                break;
+            }
+            for (int j = y+1; j <= largo; j++) {
+                Coordenada coordenada = new Coordenada(i, j);
+                if (guia[i][j] == ValorCasilla.VACIA.valor) {
+                    listaCoordenadas.add(coordenada);
+                    System.out.println("4"+ coordenada);
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return listaCoordenadas;
     }
 
     public void posicionarMinas() {
@@ -42,18 +154,22 @@ public class Tablero {
     }
 
     public void inicializarTablero() {
+        tablero = new String[ancho][largo];
         for (int i = 0; i < ancho; i++) {
             for (int j = 0; j < largo; j++) {
-                tablero[i][j] = EstadoCasilla.OCULTA;
+                tableroEstados[i][j] = EstadoCasilla.OCULTA;
+                tablero[i][j] = EstadoCasilla.OCULTA.simbolo;
+
             }
         }
+
     }
 
     public void crearGuias() {
         ArrayList<Guia> listaValoresGuia = new ArrayList<>();
         for (Mina mina : listaMinas) {
             Coordenada posMina = mina.getCoordenada();
-            listaValoresGuia.add(new Guia(posMina.getX(), posMina.getY(), 9));
+            listaValoresGuia.add(new Guia(posMina.getX(), posMina.getY(), ValorCasilla.MINA.valor));
             for (Coordenada posVecino : mina.getCoordenadasVecinas()) {
                 if (!esUnaMina(posVecino.getX(), posVecino.getY())) {
                     int indice = getPosicionEnListaGuias(listaValoresGuia, posVecino.getX(), posVecino.getY());
@@ -109,6 +225,22 @@ public class Tablero {
         return r.nextInt(limiteSuperior);
     }
 
+    public String[][] getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(String[][] tablero) {
+        this.tablero = tablero;
+    }
+
+    public EstadoCasilla[][] getTableroEstados() {
+        return tableroEstados;
+    }
+
+    public void setTableroEstados(EstadoCasilla[][] tableroEstados) {
+        this.tableroEstados = tableroEstados;
+    }
+
     public int getAncho() {
         return ancho;
     }
@@ -133,13 +265,6 @@ public class Tablero {
         this.cantMinas = cantMinas;
     }
 
-    public base.enums.EstadoCasilla[][] getTablero() {
-        return tablero;
-    }
-
-    public void setTablero(base.enums.EstadoCasilla[][] tablero) {
-        this.tablero = tablero;
-    }
 
     public int[][] getGuia() {
         return guia;

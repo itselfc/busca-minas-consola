@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9c4f6b6-47a0-457f-a4f8-e5fbfc00b2f3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/base/Juego.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controlador/Jugar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/base/enums/EstadoJuego.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/base/enums/ValorCasilla.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/vista/Impresion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Jugada.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Juego.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BuscaMinas/base/Juego.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Tablero.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BuscaMinas/base/Tablero.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/base/Jugada.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/controlador/Jugar.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BuscaMinas/controlador/Jugar.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/Juego.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/base/Tablero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/Tablero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controlador/Jugar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controlador/Jugar.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +55,9 @@
     <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="base.enums" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\itzel\Cursos\Java\BuscaMinas\.idea\Base" />
     </key>
@@ -144,7 +149,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -156,5 +163,21 @@
     <MESSAGE value="Uso de enumeraciones como atributo y cambio de lugar en proyecto." />
     <MESSAGE value="Clase inecesaria. . ." />
     <option name="LAST_COMMIT_MESSAGE" value="Clase inecesaria. . ." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/base/Tablero.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/base/Tablero.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
