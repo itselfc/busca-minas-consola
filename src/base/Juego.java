@@ -2,6 +2,7 @@ package base;
 
 import base.Tablero;
 import base.enums.Dificultad;
+import base.enums.EstadoJuego;
 
 public class Juego {
     private Tablero tablero;
@@ -15,22 +16,31 @@ public class Juego {
         tablero.inicializarTablero();
     }
 
-    public void imprimirGuia(){
-        for (int i = 0; i < tablero.getAncho(); i++) {
-            for (int j = 0; j < tablero.getLargo(); j++) {
-                System.out.print(" " + tablero.getGuia()[i][j] + " ");
-            }
-            System.out.println("");
-        }
+    public EstadoJuego descubrirCasilla(int x, int y){
+        return tablero.cambiarEstadoCasilla(x,y);
     }
 
-    public void imprimirTablero(){
-        for (int i = 0; i < tablero.getAncho(); i++) {
-            for (int j = 0; j < tablero.getLargo(); j++) {
-                System.out.print(" " + tablero.getTablero()[i][j].simbolo + " ");
-            }
-            System.out.println("");
-        }
+    public Tablero getTablero() {
+        return tablero;
     }
 
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
+    }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public boolean isGameover() {
+        return gameover;
+    }
+
+    public void setGameover(boolean gameover) {
+        this.gameover = gameover;
+    }
 }
