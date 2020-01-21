@@ -1,26 +1,35 @@
 package base;
 
 import base.enums.*;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Tablero {
+    @Getter @Setter
     private int ancho;
+    @Getter @Setter
     private int largo;
+    @Getter @Setter
     private int cantMinas;
+    @Getter @Setter
     private String[][] tablero;
+    @Getter @Setter
     private EstadoCasilla[][] tableroEstados;
+    @Getter @Setter
     private int[][] guia;
+    @Getter @Setter
     private ArrayList<Mina> listaMinas;
+    @Getter @Setter
     private ArrayList<Guia> listaGuias;
 
     public Tablero(int medida) {
         this.ancho = medida;
         this.largo = medida;
         this.tableroEstados = new base.enums.EstadoCasilla[ancho][largo];
-        listaMinas = new ArrayList<>();
-        listaGuias = new ArrayList<>();
+        listaMinas = new ArrayList<Mina>();
+        listaGuias = new ArrayList<Guia>();
         cantMinas = ((ancho * largo) / 64) * 10;
     }
 
@@ -47,17 +56,17 @@ public class Tablero {
             tablero[x][y] = EstadoCasilla.DESCUBIERTA.simbolo;
             return EstadoJuego.CONTINUA;
         }
-        if(!hayCasillasOcultas()){
+        if (!hayCasillasOcultas()) {
             return EstadoJuego.GANADO;
         }
         return EstadoJuego.CONTINUA;
     }
 
-    public boolean hayCasillasOcultas(){
+    public boolean hayCasillasOcultas() {
 
-        for(int x=0;x<ancho; x++){
-            for(int y=0;y<largo;y++){
-                if(tablero[x][y].equalsIgnoreCase(EstadoCasilla.OCULTA.simbolo)){
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < largo; y++) {
+                if (tablero[x][y].equalsIgnoreCase(EstadoCasilla.OCULTA.simbolo)) {
                     return true;
                 }
             }
@@ -67,9 +76,9 @@ public class Tablero {
     }
 
     public ArrayList<Coordenada> buscarPosicionesEspacioVacio(int x, int y) {
-        ArrayList<Coordenada> listaEspera = new ArrayList<>();
-        ArrayList<Coordenada> listaRevisados = new ArrayList<>();
-        ArrayList<Coordenada> listaGuardado = new ArrayList<>();
+        ArrayList<Coordenada> listaEspera = new ArrayList<Coordenada>();
+        ArrayList<Coordenada> listaRevisados = new ArrayList<Coordenada>();
+        ArrayList<Coordenada> listaGuardado = new ArrayList<Coordenada>();
 
         Boolean bandContinua = true;
         Coordenada coordenada = new Coordenada(x, y);
@@ -77,7 +86,7 @@ public class Tablero {
             int i = coordenada.getX();
             int j = coordenada.getY();
             //Buscar arriba
-            if (i-1>=0 && guia[i-1][j] == ValorCasilla.VACIA.valor) {
+            if (i - 1 >= 0 && guia[i - 1][j] == ValorCasilla.VACIA.valor) {
                 Coordenada aux = new Coordenada(i - 1, j);
                 if (!estaCoordenadaEnLista(listaRevisados, aux)) {
                     listaRevisados.add(aux);
@@ -86,7 +95,7 @@ public class Tablero {
                 }
             }
             //Buscar abajo
-            if (i+1<largo && guia[i + 1][j] == ValorCasilla.VACIA.valor) {
+            if (i + 1 < largo && guia[i + 1][j] == ValorCasilla.VACIA.valor) {
                 Coordenada aux = new Coordenada(i + 1, j);
                 if (!estaCoordenadaEnLista(listaRevisados, aux)) {
                     listaRevisados.add(aux);
@@ -95,7 +104,7 @@ public class Tablero {
                 }
             }
             //Buscar hacia la derecha
-            if (j+1< ancho && guia[i][j + 1] == ValorCasilla.VACIA.valor) {
+            if (j + 1 < ancho && guia[i][j + 1] == ValorCasilla.VACIA.valor) {
                 Coordenada aux = new Coordenada(i, j + 1);
                 if (!estaCoordenadaEnLista(listaRevisados, aux)) {
                     listaRevisados.add(aux);
@@ -104,7 +113,7 @@ public class Tablero {
                 }
                 //Buscar hacia la izquierda
             }
-            if (j-1 >=0 && guia[i][j - 1] == ValorCasilla.VACIA.valor) {
+            if (j - 1 >= 0 && guia[i][j - 1] == ValorCasilla.VACIA.valor) {
                 Coordenada aux = new Coordenada(i, j - 1);
                 if (!estaCoordenadaEnLista(listaRevisados, aux)) {
                     listaRevisados.add(aux);
@@ -132,7 +141,7 @@ public class Tablero {
     }
 
     public void posicionarMinas() {
-        ArrayList<Mina> listaMinas = new ArrayList<>();
+        ArrayList<Mina> listaMinas = new ArrayList<Mina>();
         for (int i = 0; i < cantMinas; i++) {
             int x;
             int y;
@@ -141,7 +150,7 @@ public class Tablero {
                 y = generarAleatorio(largo - 1);
             } while (estaGuardadoEnLista(x, y, listaMinas));
             Mina mina = new Mina(x, y);
-            ArrayList<Coordenada> listaPuntosCercanos = new ArrayList<>();
+            ArrayList<Coordenada> listaPuntosCercanos = new ArrayList<Coordenada>();
             listaPuntosCercanos.addAll(mina.encontrarCoordenadasVecinas(x, y, ancho, largo));
             mina.setCoordenadasVecinas(listaPuntosCercanos);
             listaMinas.add(mina);
@@ -162,7 +171,7 @@ public class Tablero {
     }
 
     public void crearGuias() {
-        ArrayList<Guia> listaValoresGuia = new ArrayList<>();
+        ArrayList<Guia> listaValoresGuia = new ArrayList<Guia>();
         for (Mina mina : listaMinas) {
             Coordenada posMina = mina.getCoordenada();
             listaValoresGuia.add(new Guia(posMina.getX(), posMina.getY(), ValorCasilla.MINA.valor));
@@ -221,68 +230,4 @@ public class Tablero {
         return r.nextInt(limiteSuperior);
     }
 
-    public String[][] getTablero() {
-        return tablero;
-    }
-
-    public void setTablero(String[][] tablero) {
-        this.tablero = tablero;
-    }
-
-    public EstadoCasilla[][] getTableroEstados() {
-        return tableroEstados;
-    }
-
-    public void setTableroEstados(EstadoCasilla[][] tableroEstados) {
-        this.tableroEstados = tableroEstados;
-    }
-
-    public int getAncho() {
-        return ancho;
-    }
-
-    public void setAncho(int ancho) {
-        this.ancho = ancho;
-    }
-
-    public int getLargo() {
-        return largo;
-    }
-
-    public void setLargo(int largo) {
-        this.largo = largo;
-    }
-
-    public int getCantMinas() {
-        return cantMinas;
-    }
-
-    public void setCantMinas(int cantMinas) {
-        this.cantMinas = cantMinas;
-    }
-
-
-    public int[][] getGuia() {
-        return guia;
-    }
-
-    public void setGuia(int[][] guia) {
-        this.guia = guia;
-    }
-
-    public ArrayList<Mina> getListaMinas() {
-        return listaMinas;
-    }
-
-    public void setListaMinas(ArrayList<Mina> listaMinas) {
-        this.listaMinas = listaMinas;
-    }
-
-    public ArrayList<Guia> getListaGuias() {
-        return listaGuias;
-    }
-
-    public void setListaGuias(ArrayList<Guia> listaGuias) {
-        this.listaGuias = listaGuias;
-    }
 }

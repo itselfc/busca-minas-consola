@@ -1,10 +1,12 @@
 package base;
 
-import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Coordenada {
-
+    @Getter @Setter
     private int x;
+    @Getter @Setter
     private int y;
 
     public Coordenada(int x,int y){
@@ -14,22 +16,6 @@ public class Coordenada {
     public Coordenada(Coordenada coordenada){
         x=coordenada.getX();
         y=coordenada.getY();
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     @Override

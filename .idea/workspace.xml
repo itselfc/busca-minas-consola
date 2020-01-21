@@ -2,16 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9c4f6b6-47a0-457f-a4f8-e5fbfc00b2f3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/base/enums/EstadoJuego.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/base/enums/ValorCasilla.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vista/Impresion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/BuscaMinas.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Juego.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BuscaMinas/base/Juego.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Tablero.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BuscaMinas/base/Tablero.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/controlador/Jugar.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BuscaMinas/controlador/Jugar.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/base/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/Juego.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/base/Tablero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/Tablero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controlador/Jugar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controlador/Jugar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuscaMinas.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BuscaMinas.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Coordenada.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Guia.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Juego.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Mina.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/Tablero.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/enums/Dificultad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/enums/EstadoCasilla.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/enums/EstadoJuego.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/base/enums/ValorCasilla.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/controlador/Jugar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BuscaMinas/vista/Impresion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/Coordenada.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/Coordenada.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/Guia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/Guia.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/Juego.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/Mina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/Mina.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/Tablero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/Tablero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/enums/Dificultad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/enums/Dificultad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/enums/EstadoCasilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/enums/EstadoCasilla.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/enums/EstadoJuego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/enums/EstadoJuego.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/enums/ValorCasilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/base/enums/ValorCasilla.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controlador/Jugar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controlador/Jugar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vista/Impresion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vista/Impresion.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,10 +51,17 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="ProjectId" id="1VusXfuEWUfhC7723iCw07Dzsjf" />
   <component name="ProjectLevelVcsManager">
@@ -49,16 +74,19 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="base.enums" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\itzel\Proyectos\Java\BuscaMinas\src\main\java" />
+      <recent name="C:\Users\itzel\Proyectos\Java\BuscaMinas\src\main\java\base\enums" />
+      <recent name="C:\Users\itzel\Proyectos\Java\BuscaMinas\src\main\java\controlador" />
       <recent name="C:\Users\itzel\Cursos\Java\BuscaMinas\.idea\Base" />
     </key>
   </component>
@@ -103,6 +131,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Jugar" />
+        <item itemvalue="Application.Juego" />
         <item itemvalue="Application.Jugar" />
         <item itemvalue="Application.Juego" />
       </list>
@@ -168,13 +198,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/base/Tablero.java</url>
-          <line>30</line>
+          <url>file://$PROJECT_DIR$/src/main/java/base/Tablero.java</url>
+          <line>38</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/base/Tablero.java</url>
-          <line>66</line>
+          <url>file://$PROJECT_DIR$/src/main/java/base/Tablero.java</url>
+          <line>74</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

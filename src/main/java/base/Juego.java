@@ -1,12 +1,16 @@
 package base;
 
-import base.Tablero;
+import lombok.Getter;
+import lombok.Setter;
 import base.enums.Dificultad;
 import base.enums.EstadoJuego;
 
 public class Juego {
+    @Getter @Setter
     private Tablero tablero;
+    @Getter @Setter
     private int tiempo;
+    @Getter @Setter
     private boolean gameover;
 
     public Juego(Dificultad dificultad) {
@@ -20,27 +24,5 @@ public class Juego {
         return tablero.cambiarEstadoCasilla(x,y);
     }
 
-    public Tablero getTablero() {
-        return tablero;
-    }
 
-    public void setTablero(Tablero tablero) {
-        this.tablero = tablero;
-    }
-
-    public int getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(int tiempo) {
-        this.tiempo = tiempo;
-    }
-
-    public boolean isGameover() {
-        return gameover;
-    }
-
-    public void setGameover(boolean gameover) {
-        this.gameover = gameover;
-    }
 }

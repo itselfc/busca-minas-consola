@@ -1,10 +1,7 @@
 package controlador;
-
-import base.Juego;
-import base.Mina;
 import base.enums.*;
+import base.Juego;
 import vista.Impresion;
-
 import java.util.Scanner;
 
 public class Jugar {

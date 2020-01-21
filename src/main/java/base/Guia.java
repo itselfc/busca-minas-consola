@@ -1,10 +1,12 @@
 package base;
 
-import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Guia {
-
+    @Getter @Setter
     private Coordenada coordenada;
+    @Getter @Setter
     private int valor;
 
     public Guia(int x, int y, int valor) {
@@ -14,22 +16,6 @@ public class Guia {
 
     public Guia(int x, int y) {
         coordenada = new Coordenada(x, y);
-    }
-
-    public Coordenada getCoordenada() {
-        return coordenada;
-    }
-
-    public void setCoordenada(Coordenada coordenada) {
-        this.coordenada = coordenada;
-    }
-
-    public int getValor() {
-        return valor;
-    }
-
-    public void setValor(int valor) {
-        this.valor = valor;
     }
 
     @Override
