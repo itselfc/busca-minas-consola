@@ -23,10 +23,12 @@ public class Jugar {
             int x = in.nextInt();
             System.out.println("Y:");
             int y = in.nextInt();
-            estado = play.juego.descubrirCasilla(x, y);
+            estado = play.juego.descubrirCasilla(y,x);
             play.impresora.mostrarGuia();
             play.impresora.mostrarTablero();
         } while (estado == EstadoJuego.CONTINUA);
+
+        System.out.println(estado.valor);
 
     }
 
