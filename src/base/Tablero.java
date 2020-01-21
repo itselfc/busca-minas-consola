@@ -46,93 +46,89 @@ public class Tablero {
             }
             tablero[x][y] = EstadoCasilla.DESCUBIERTA.simbolo;
             return EstadoJuego.CONTINUA;
-
-
+        }
+        if(!hayCasillasOcultas()){
+            return EstadoJuego.GANADO;
         }
         return EstadoJuego.CONTINUA;
+    }
 
+    public boolean hayCasillasOcultas(){
+
+        for(int x=0;x<ancho; x++){
+            for(int y=0;y<largo;y++){
+                if(tablero[x][y].equalsIgnoreCase(EstadoCasilla.OCULTA.simbolo)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public ArrayList<Coordenada> buscarPosicionesEspacioVacio(int x, int y) {
-        ArrayList<Coordenada> listaCoordenadas = new ArrayList<>();
+        ArrayList<Coordenada> listaEspera = new ArrayList<>();
+        ArrayList<Coordenada> listaRevisados = new ArrayList<>();
+        ArrayList<Coordenada> listaGuardado = new ArrayList<>();
 
-        //La búsqueda de posiciones divide el tablero en 4 cuadrantes en donde la coordenada dada es el la que los divide.
-        // 1er cuadrante, C(x,y) limita la esquina inferior derecha del cuadrante.
-        // 2do cuadrante, C(x,y) limita la esquina inferior izquierda del cuadrante.
-        // 3er cuadrante, C(x,y) limita la esquina superior derecha del cuadrante.
-        // 4to cuadrante, C(x,y) limita la esquina superior derecha del cuadrante.
-        // Por medio de ciclos se buscan todas posiciones a partir del punto hasta llegar a una guia diferente de 0;
-
-        //Busqueda en primer cuadrante.
-        for (int i = x; i >= 0; i--) {
-            if (guia[i][y] != ValorCasilla.VACIA.valor) {
-                break;
-            }
-            for (int j = y; j >= 0; j--) {
-                Coordenada coordenada = new Coordenada(i, j);
-                if (guia[i][j] == ValorCasilla.VACIA.valor) {
-                    System.out.println("1"+ coordenada);
-
-                    listaCoordenadas.add(coordenada);
-                } else {
-                    break;
+        Boolean bandContinua = true;
+        Coordenada coordenada = new Coordenada(x, y);
+        do {
+            int i = coordenada.getX();
+            int j = coordenada.getY();
+            //Buscar arriba
+            if (i-1>=0 && guia[i-1][j] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i - 1, j);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
                 }
             }
-
-        }
-
-        //Busqueda en segundo cuadrante. Agregas +1 a X para buscar en la siguiente linea vertical.
-        for (int i = x+1; i <= ancho; i++) {
-            if (guia[i][y] != ValorCasilla.VACIA.valor) {
-                break;
-            }
-            for (int j = y; j >= 0; j--) {
-                Coordenada coordenada = new Coordenada(i, j);
-                if (guia[i][j] == ValorCasilla.VACIA.valor) {
-                    System.out.println("2"+ coordenada);
-
-                    listaCoordenadas.add(coordenada);
-                } else {
-                    break;
+            //Buscar abajo
+            if (i+1<largo && guia[i + 1][j] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i + 1, j);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
                 }
             }
-        }
-
-        //Busqueda en tercer cuadrante. Agregamos +1 a Y para buscar en la siguiente linea horizontal.
-        for (int i = x; i >= 0; i--) {
-            if ((y+1)<=largo && guia[i][y+1] != ValorCasilla.VACIA.valor) {
-                break;
+            //Buscar hacia la derecha
+            if (j+1< ancho && guia[i][j + 1] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i, j + 1);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
+                }
+                //Buscar hacia la izquierda
             }
-            for (int j = y+1; j <= largo; j++) {
-                Coordenada coordenada = new Coordenada(i, j);
-                if (guia[i][j] == ValorCasilla.VACIA.valor) {
-                    System.out.println("3"+ coordenada);
-
-                    listaCoordenadas.add(coordenada);
-                } else {
-                    break;
+            if (j-1 >=0 && guia[i][j - 1] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i, j - 1);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
                 }
             }
-        }
-
-
-        //Busqueda en cuarto cuadrante. Agregas +1 a X para buscar en la siguiente linea vertical.
-        for (int i = x+1; i <= ancho; i++) {
-            if (guia[i][y] != ValorCasilla.VACIA.valor) {
-                break;
+            if (listaEspera.size() > 0) {
+                coordenada = listaEspera.get(0);
+                listaEspera.remove(0);
+            } else {
+                bandContinua = false;
             }
-            for (int j = y+1; j <= largo; j++) {
-                Coordenada coordenada = new Coordenada(i, j);
-                if (guia[i][j] == ValorCasilla.VACIA.valor) {
-                    listaCoordenadas.add(coordenada);
-                    System.out.println("4"+ coordenada);
-                } else {
-                    break;
-                }
+        } while (bandContinua);
+        return listaGuardado;
+    }
+
+    public boolean estaCoordenadaEnLista(ArrayList<Coordenada> lista, Coordenada coordenada) {
+        for (Coordenada coord : lista) {
+            if (coord.getX() == coordenada.getX() && coord.getY() == coordenada.getY()) {
+                return true;
             }
         }
-
-        return listaCoordenadas;
+        return false;
     }
 
     public void posicionarMinas() {
