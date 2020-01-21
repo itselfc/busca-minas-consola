@@ -1,5 +1,7 @@
 package base;
 
+import base.enums.*;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,26 +9,137 @@ public class Tablero {
     private int ancho;
     private int largo;
     private int cantMinas;
-    private boolean[][] tablero;
+    private String[][] tablero;
+    private EstadoCasilla[][] tableroEstados;
     private int[][] guia;
     private ArrayList<Mina> listaMinas;
     private ArrayList<Guia> listaGuias;
 
-    public Tablero(int ancho, int largo) {
-        this.tablero = new boolean[ancho][largo];
-        this.ancho = ancho;
-        this.largo = largo;
+    public Tablero(int medida) {
+        this.ancho = medida;
+        this.largo = medida;
+        this.tableroEstados = new base.enums.EstadoCasilla[ancho][largo];
         listaMinas = new ArrayList<>();
         listaGuias = new ArrayList<>();
         cantMinas = ((ancho * largo) / 64) * 10;
+    }
 
+    public EstadoJuego cambiarEstadoCasilla(int x, int y) {
+        EstadoCasilla estadoCasilla = tableroEstados[x][y];
+        if (estadoCasilla == EstadoCasilla.OCULTA) {
+            int valor = guia[x][y];
+            if (valor == ValorCasilla.VACIA.valor) {
+                ArrayList<Coordenada> listaCoordenadasEspaciosVacios = buscarPosicionesEspacioVacio(x, y);
+                for (Coordenada coordenada : listaCoordenadasEspaciosVacios) {
+                    int i = coordenada.getX();
+                    int j = coordenada.getY();
+                    tablero[i][j] = EstadoCasilla.DESCUBIERTA.simbolo;
+                }
+            }
+            if (valor == ValorCasilla.MINA.valor) {
+                tablero[x][y] = EstadoCasilla.EXPLOTADA.simbolo;
+                return EstadoJuego.PERDIDO;
+            }
+            if (valor == ValorCasilla.BANDERA.valor) {
+                tablero[x][y] = EstadoCasilla.DESCUBIERTA.simbolo;
+                return EstadoJuego.GANADO;
+            }
+            tablero[x][y] = EstadoCasilla.DESCUBIERTA.simbolo;
+            return EstadoJuego.CONTINUA;
+        }
+        if(!hayCasillasOcultas()){
+            return EstadoJuego.GANADO;
+        }
+        return EstadoJuego.CONTINUA;
+    }
+
+    public boolean hayCasillasOcultas(){
+
+        for(int x=0;x<ancho; x++){
+            for(int y=0;y<largo;y++){
+                if(tablero[x][y].equalsIgnoreCase(EstadoCasilla.OCULTA.simbolo)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public ArrayList<Coordenada> buscarPosicionesEspacioVacio(int x, int y) {
+        ArrayList<Coordenada> listaEspera = new ArrayList<>();
+        ArrayList<Coordenada> listaRevisados = new ArrayList<>();
+        ArrayList<Coordenada> listaGuardado = new ArrayList<>();
+
+        Boolean bandContinua = true;
+        Coordenada coordenada = new Coordenada(x, y);
+        do {
+            int i = coordenada.getX();
+            int j = coordenada.getY();
+            //Buscar arriba
+            if (i-1>=0 && guia[i-1][j] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i - 1, j);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
+                }
+            }
+            //Buscar abajo
+            if (i+1<largo && guia[i + 1][j] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i + 1, j);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
+                }
+            }
+            //Buscar hacia la derecha
+            if (j+1< ancho && guia[i][j + 1] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i, j + 1);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
+                }
+                //Buscar hacia la izquierda
+            }
+            if (j-1 >=0 && guia[i][j - 1] == ValorCasilla.VACIA.valor) {
+                Coordenada aux = new Coordenada(i, j - 1);
+                if (!estaCoordenadaEnLista(listaRevisados, aux)) {
+                    listaRevisados.add(aux);
+                    listaEspera.add(aux);
+                    listaGuardado.add(aux);
+                }
+            }
+            if (listaEspera.size() > 0) {
+                coordenada = listaEspera.get(0);
+                listaEspera.remove(0);
+            } else {
+                bandContinua = false;
+            }
+        } while (bandContinua);
+        return listaGuardado;
+    }
+
+    public boolean estaCoordenadaEnLista(ArrayList<Coordenada> lista, Coordenada coordenada) {
+        for (Coordenada coord : lista) {
+            if (coord.getX() == coordenada.getX() && coord.getY() == coordenada.getY()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void posicionarMinas() {
         ArrayList<Mina> listaMinas = new ArrayList<>();
         for (int i = 0; i < cantMinas; i++) {
-            int x = generarAleatorio(ancho - 1);
-            int y = generarAleatorio(largo - 1);
+            int x;
+            int y;
+            do {
+                x = generarAleatorio(ancho - 1);
+                y = generarAleatorio(largo - 1);
+            } while (estaGuardadoEnLista(x, y, listaMinas));
             Mina mina = new Mina(x, y);
             ArrayList<Coordenada> listaPuntosCercanos = new ArrayList<>();
             listaPuntosCercanos.addAll(mina.encontrarCoordenadasVecinas(x, y, ancho, largo));
@@ -36,14 +149,25 @@ public class Tablero {
         this.listaMinas = listaMinas;
     }
 
+    public void inicializarTablero() {
+        tablero = new String[ancho][largo];
+        for (int i = 0; i < ancho; i++) {
+            for (int j = 0; j < largo; j++) {
+                tableroEstados[i][j] = EstadoCasilla.OCULTA;
+                tablero[i][j] = EstadoCasilla.OCULTA.simbolo;
+
+            }
+        }
+
+    }
 
     public void crearGuias() {
         ArrayList<Guia> listaValoresGuia = new ArrayList<>();
         for (Mina mina : listaMinas) {
             Coordenada posMina = mina.getCoordenada();
-            listaValoresGuia.add(new Guia(posMina.getX(), posMina.getY(), 9));
+            listaValoresGuia.add(new Guia(posMina.getX(), posMina.getY(), ValorCasilla.MINA.valor));
             for (Coordenada posVecino : mina.getCoordenadasVecinas()) {
-                if (!esUnaMina(posVecino.getX(),posVecino.getY())) {
+                if (!esUnaMina(posVecino.getX(), posVecino.getY())) {
                     int indice = getPosicionEnListaGuias(listaValoresGuia, posVecino.getX(), posVecino.getY());
                     if (indice != -1) {
                         int valorPrevio = listaValoresGuia.get(indice).getValor();
@@ -82,10 +206,35 @@ public class Tablero {
         return -1;
     }
 
+    public boolean estaGuardadoEnLista(int x, int y, ArrayList<Mina> listaMinas) {
+        for (Mina mina : listaMinas) {
+            Coordenada c = mina.getCoordenada();
+            if (c.getX() == x && c.getY() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public int generarAleatorio(int limiteSuperior) {
         Random r = new Random();
         return r.nextInt(limiteSuperior);
+    }
+
+    public String[][] getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(String[][] tablero) {
+        this.tablero = tablero;
+    }
+
+    public EstadoCasilla[][] getTableroEstados() {
+        return tableroEstados;
+    }
+
+    public void setTableroEstados(EstadoCasilla[][] tableroEstados) {
+        this.tableroEstados = tableroEstados;
     }
 
     public int getAncho() {
@@ -112,13 +261,6 @@ public class Tablero {
         this.cantMinas = cantMinas;
     }
 
-    public boolean[][] getTablero() {
-        return tablero;
-    }
-
-    public void setTablero(boolean[][] tablero) {
-        this.tablero = tablero;
-    }
 
     public int[][] getGuia() {
         return guia;

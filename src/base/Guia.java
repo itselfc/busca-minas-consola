@@ -6,17 +6,14 @@ public class Guia {
 
     private Coordenada coordenada;
     private int valor;
-    private boolean bandOculto;
 
-    public Guia(int x,int y,int valor){
-        coordenada=new Coordenada(x,y);
-        this.valor=valor;
-        bandOculto=true;
+    public Guia(int x, int y, int valor) {
+        coordenada = new Coordenada(x, y);
+        this.valor = valor;
     }
 
-    public Guia(int x,int y){
-        coordenada=new Coordenada(x,y);
-        bandOculto=true;
+    public Guia(int x, int y) {
+        coordenada = new Coordenada(x, y);
     }
 
     public Coordenada getCoordenada() {
@@ -35,15 +32,8 @@ public class Guia {
         this.valor = valor;
     }
 
-    public boolean isBandOculto() {
-        return bandOculto;
-    }
-
-    public void setBandOculto(boolean bandOculto) {
-        this.bandOculto = bandOculto;
-    }
     @Override
     public String toString() {
-        return coordenada + "  V="+ valor;
+        return coordenada + "  V=" + valor;
     }
 }
